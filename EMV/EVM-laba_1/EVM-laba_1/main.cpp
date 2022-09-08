@@ -94,6 +94,8 @@ int main(){
         }
     }
     else if (t == 2) {
+        cout << "in progress..";
+        return 0;
         ld a;
         a.input();
         a.output();
