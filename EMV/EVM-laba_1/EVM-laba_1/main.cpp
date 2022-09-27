@@ -26,7 +26,8 @@ public:
         cin >> s;
         if (s.size() >= 2) {
             system("cls");
-            return input();
+            input();
+            return;
         }
         a = s[0];
     }
@@ -52,10 +53,18 @@ public:
 
 class ld {
 private:
-    long double a;
+    bool s = 0;
+    bool m[64]{};
+    bool p[15]{};
+    const int middle = (1 << 14) - 1;
 public:
+    ld() {
+        for (int i = 0; i < 14; i++) p[i] = 1;
+    }
     void input() {
-
+        string s;
+        cin >> s;
+        //for(int )
     }
     void output() {
 
