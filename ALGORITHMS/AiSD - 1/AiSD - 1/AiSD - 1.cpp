@@ -64,22 +64,23 @@ public:
 int main()
 {
     list a;
-    a.push_back(1);
     a.push_back(2);
-    a.push_back(-1);
-    a.pop_index(1);
-    a.push_back(6);
-    a.set_index(2, 4);
-    a.add_index(2, 3);
-    a.push_front(5);
-    a.push_front(7);
+    a.push_back(3);
+    a.push_back(3);
+    a.push_back(2);
+    a.push_back(3);
+    a.push_back(2);
+    a.push_back(3);
+    a.push_back(4);
+    
     for (int i = 0; i < a.get_size(); i++) {
-        cout << a.get_index(i) << endl;
+        cout << a.get_index(i) << " ";
     }
+    cout << endl << endl;
     list b;
-    b.push_back(5);
-    b.push_back(1);
-    b.push_back(-1);
+    b.push_back(2);
+    b.push_back(3);
+    b.push_back(4);
     cout << "ans: " << a.process(b) << endl;
     a.clear();
     cout << a.get_size() << endl;
@@ -87,13 +88,13 @@ int main()
 
 int list::process(list b) {
     if (b.get_size() > get_size()) return -1;
-    int n = get_size();
-    for (int i = 0; i < n; i++) {
+    int n = get_size(); // O(n)
+    for (int i = 0; i < n; i++) { // 0(n)
         int x = 1;
-        for (int j = 0; j < b.get_size(); j++) {
+        for (int j = 0; j < b.get_size(); j++) { // O(m)
             if (i + j >= n) return -1;
             
-            if (get_index(i + j) != b.get_index(j)) {
+            if (get_index(i + j) != b.get_index(j)) { // 0(n + m)
 
                 x = 0;
                 break;
@@ -101,7 +102,7 @@ int list::process(list b) {
         }
         if (x) return i;
     }
-    return -1;
+    return -1; // O(nm(n + m))
 }
 
 void list::pop_index(int i) {
@@ -177,8 +178,12 @@ void list::set_index(int i, int a) {
 }
 
 void list::push_front(int a) {
+    if (empty) {
+        head = new list(a);
+        return;
+    }
     list* tmp = new list(a, head);
-    prev = tmp;
+    head->prev = tmp;
     head = tmp;
 }
 
