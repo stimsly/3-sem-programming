@@ -29,7 +29,7 @@ int main()
 	cin >> t;
 	
 
-	if (t != 1 and t != 2) return 0;
+	if (t != 1 and t != 2) return 0;// нечего фигню вводить
 
 	if (t == 1) {
 		cout << "Введите unigned char: ";
@@ -51,27 +51,21 @@ int main()
 	cout << "Введите количество операций: ";
 	int n;
 	cin >> n;
-	if (n <= 0) return 0;
+	if (n <= 0) return 0;// нечего фигню вводить
 
-	for (int i = 0; i < n; i++)
-	{
+	for (int i = 0; i < n; i++) {
 		int a, b;
 		cout << "Введите номер бита и значение которое туда надо установить: ";
 		cin >> a >> b;
 
-		if (b != 0 and b != 1) return 0;
+		if (b != 0 and b != 1) return 0;// нечего фигню вводить
 		if (t == 1 and (a < 0 or a >= 8)) return 0;
 		if (t == 2 and (a < 0 or a >= 64)) return 0;
 
-		if (b == 1) {
-			unsigned long long g = (1LL << a);
-			num.a |= g;
-		}
-		else {
-			unsigned long long g = (1LL << a);
-			num.a &= ~g;
-		}
-
+		unsigned long long g = (1LL << a); // вся логика
+		if (b == 1) num.a |= g;
+		else num.a &= ~g;
+		
 		cout << "Новое значение: ";
 		if (t == 1) cout << num.u_char << endl;
 		if (t == 2) cout << num.ld << endl;
@@ -80,5 +74,4 @@ int main()
 	}
 
 	return 0;
-
 }
