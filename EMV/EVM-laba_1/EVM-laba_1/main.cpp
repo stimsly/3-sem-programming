@@ -1,133 +1,84 @@
 ﻿#include <iostream>
+#include <conio.h>
 #include <Windows.h>
-
 using namespace std;
 
-int menu() {
-    cout << "1.Ввести unsigned char\n"
-        << "2.Ввести long double\n"
-        << "Ваш выбор: ";
-    int t;
-    cin >> t;
-    if (t <= 0 or t > 2) {
-        system("cls");
-        return menu();
-    }
-    return t;
+union all {
+	unsigned char u_char;
+	long double ld;
+	unsigned long long a;
+};
+
+void to_binary(unsigned long long num, long long size) {
+	for (long long i = size - 1; i >= 0; i--) {
+		if ((1LL << i) & num) cout << 1;
+		else cout << 0;
+	}
+	cout << endl;
 }
 
-class uc {
-private:
-    unsigned char a;
-public:
-    void input() {
-        cout << "Введите unsigned char: ";
-        string s;
-        cin >> s;
-        if (s.size() >= 2) {
-            system("cls");
-            input();
-            return;
-        }
-        a = s[0];
-    }
-    void set(int number, int value) {
-        if (value == 0) {
-            int temp = 255 ^ (1 << number);
-            a = char((a - 0) & temp);
-        }
-        else {
-            a = char((a - 0) | (1 << number));
-        }
-    }
-    void output() {
-        cout << "Номер в таблице " << a - 0 << endl;
-        cout << "Двоичное представление: ";
-        for (int i = 7; i >= 0; i--) {
-            if ((a - 0) & (1 << i)) cout << 1;
-            else cout << 0;
-        }
-        cout << "\nСимвол - (" << a << ")" << endl;
-    }
-};
 
-class ld {
-private:
-    bool s = 0;
-    bool m[64]{};
-    bool p[15]{};
-    const int middle = (1 << 14) - 1;
-public:
-    ld() {
-        for (int i = 0; i < 14; i++) p[i] = 1;
-    }
-    void input() {
-        string s;
-        cin >> s;
-        //for(int )
-    }
-    void output() {
+int main()
+{
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	all num;
+	int t;
 
-    }
-    void set() {
+	cout << "1.Ввести unsigned char\n2.Ввести long double\nВаш выбор: ";
+	cin >> t;
+	
 
-    }
-};
+	if (t != 1 and t != 2) return 0;
 
-int main(){
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    int t = menu();
-    if (t == 1) {
-        uc a;
-        a.input();
-        a.output();
+	if (t == 1) {
+		cout << "Введите unigned char: ";
+		cin >> num.u_char;
+		system("cls");
+		cout << "Вы ввели: " << num.u_char
+			<< "\nДвоичное представление: ";
+		to_binary(num.a, sizeof(num.u_char) * 8);
+	}
+	else {
+		cout << "Введите long double: ";
+		cin >> num.ld;
+		system("cls");
+		cout << "Вы ввели: " << num.ld
+			<< "\nДвоичное представление: ";
+		to_binary(num.a, sizeof(num.ld) * 8);
+	}
 
-        cout << "\nВведите количество операций: ";
-        int n;
-        cin >> n;
+	cout << "Введите количество операций: ";
+	int n;
+	cin >> n;
+	if (n <= 0) return 0;
 
-        for (int i = 0; i < n; i++) {
-            cout << "Введите номер бита(0 - 7) и значение(0 или 1): ";
-            int number, value;
-            cin >> number >> value;
+	for (int i = 0; i < n; i++)
+	{
+		int a, b;
+		cout << "Введите номер бита и значение которое туда надо установить: ";
+		cin >> a >> b;
 
-            if (number < 0 or number > 7 or value < 0 or value > 1) {
-                cout << "Неверный входной формат\n";
-                i--;
-                continue;
-            }
-            
-            a.set(number, value);
-            a.output();
-        }
-    }
-    else if (t == 2) {
-        cout << "in progress..";
-        return 0;
-        ld a;
-        a.input();
-        a.output();
+		if (b != 0 and b != 1) return 0;
+		if (t == 1 and (a < 0 or a >= 8)) return 0;
+		if (t == 2 and (a < 0 or a >= 64)) return 0;
 
-        cout << "\nВведите количество операций: ";
-        int n;
-        cin >> n;
+		if (b == 1) {
+			unsigned long long g = (1LL << a);
+			num.a |= g;
+		}
+		else {
+			unsigned long long g = (1LL << a);
+			num.a &= ~g;
+		}
 
-        for (int i = 0; i < n; i++) {
-            cout << "Введите номер бита(0 - 79) и значение(0 или 1): ";
-            int number, value;
-            cin >> number >> value;
+		cout << "Новое значение: ";
+		if (t == 1) cout << num.u_char << endl;
+		if (t == 2) cout << num.ld << endl;
+		if (t == 1) to_binary(num.a, sizeof(num.u_char) * 8);
+		if (t == 2) to_binary(num.a, sizeof(num.ld) * 8);
+	}
 
-            if (number < 0 or number > 7 or value < 0 or value > 1) {
-                cout << "Неверный входной формат\n";
-                i--;
-                continue;
-            }
+	return 0;
 
-            //a.set(number, value);
-            a.output();
-        }
-        
-    }
-    return 0;
 }
