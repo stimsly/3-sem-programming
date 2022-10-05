@@ -69,6 +69,7 @@ int main()
 		cout << "Новое значение: ";
 		if (t == 1) cout << num.u_char << endl;
 		if (t == 2) cout << num.ld << endl;
+		cout << "Двоичное представление: ";
 		if (t == 1) to_binary(num.a, sizeof(num.u_char) * 8);
 		if (t == 2) to_binary(num.a, sizeof(num.ld) * 8);
 	}

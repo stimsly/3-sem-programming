@@ -12,7 +12,7 @@ struct p {
     int x, y;
 }a[100000], b[100000];
 
-bool is_ans_exist = 1;
+bool is_ans_exist = 0;
 int total_ans = 9999999;
 
 bool sortf(p a, p b) {
@@ -87,7 +87,9 @@ int find(int l, int r, p (&a)[100000]) {
         if (x > 1) {
             is_ans_exist = 0;
         }
-        else is_ans_exist = 1;
+        else {
+            is_ans_exist = 1;
+        }
     }
     return min(ans, h);
 
