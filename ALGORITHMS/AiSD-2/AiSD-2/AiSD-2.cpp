@@ -4,45 +4,46 @@
 #include <Windows.h>
 #include <vector>
 #include <stdlib.h>
+#include <map>
 
 using namespace std;
 
 ifstream fin("input.txt");
 
 struct p {
-    int x, y;
+    long long x, y;
 }a[100000], b[100000];
 
 bool is_ans_exist = 1;
-int total_ans = 9999999;
+long long total_ans = 1e18;
 
 bool sortf(p a, p b) {
 
     return a.x < b.x or (a.x == b.x and a.y < b.y);
 }
 
-int dist(p a, p b) {
+long long dist(p a, p b) {
     return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
 }
 
 
-int find(int l, int r, p (&a)[100000]) {
+long long find(int l, int r, p (&a)[100000]) {
     if(r - l <= 2){
         if (a[r - 1].y < a[l].y) swap(a[r - 1], a[l]);// sort по y
         if (r - l == 1) return 9999999;
         else return dist(a[l], a[r - 1]);
     }
 
-    int h1 = find(l, (l + r) / 2, a);
-    int h2 = find((l + r) / 2, r, a);
-    int h = min(h1, h2); // получаем минимум
+    long long h1 = find(l, (l + r) / 2, a);
+    long long h2 = find((l + r) / 2, r, a);
+    long long h = min(h1, h2); // получаем минимум
     if (total_ans > h) {
         total_ans = h;
     }
 
 
-    int left = l;
-    int middle = (l + r) / 2;
+    long long left = l;
+    long long middle = (l + r) / 2;
 
     for (int i = l; i < r; i++) {
         if (left == (l + r) / 2) b[i] = a[middle++];
@@ -65,7 +66,7 @@ int find(int l, int r, p (&a)[100000]) {
         }
     }
 
-    int ans = h;
+    long long ans = h;
 
     for (int i = 0; i < B.size(); i++) {
         int x = 0;
@@ -109,16 +110,23 @@ int find(int l, int r, p (&a)[100000]) {
 
 void make_test(int n) {
     ofstream f("input.txt");
+    map <pair<int, int>, int> a;
     f << n << endl;
     for (int i = 0; i < n; i++) {
-        f << rand() % 1000 - 500 << " " << rand() % 1000 - 500 << endl;
+        int b1 = rand() % 10000;
+        int b2 = rand() % 10000;
+        if (a[{b1, b2}]) i--;
+        else {
+            a[{b1, b2}] = 1;
+            f << b1 << " " << b2 << endl;
+        }
     }
 }
 
 int main()
 {
     srand(time(0));
-    make_test(10);
+    make_test(100000);
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     int n;
@@ -129,11 +137,11 @@ int main()
     
     sort(a, a + n, sortf); // sort по x
 
-    int ans = find(0, n, a);
+    long long ans = find(0, n, a);
 
     if (is_ans_exist == 1) {
         cout << "Total ans in sqr: ";
-        cout << (total_ans + .0);
+        cout << (total_ans);
         cout << "\nTotal ans: ";
         cout << sqrt(total_ans * 1.0);
     }
