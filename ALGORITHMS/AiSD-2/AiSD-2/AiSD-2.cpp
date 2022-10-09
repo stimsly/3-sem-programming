@@ -3,6 +3,7 @@
 #include <fstream>
 #include <Windows.h>
 #include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -49,7 +50,7 @@ int find(int l, int r, p (&a)[100000]) {
         else if(a[middle].y < a[left].y) b[i] = a[middle++];
         else b[i] = a[left++];
     }
-    //cout << "New group\n";
+   /// cout << "New group\n";
     for (int i = l; i < r; i++) {
         a[i] = b[i];
       //  cout << a[i].x << " " << a[i].y << endl;
@@ -60,7 +61,7 @@ int find(int l, int r, p (&a)[100000]) {
     for (int i = l; i < r; i++) {
         if (abs(a[(l + r) / 2].x - a[i].x) * abs(a[(l + r) / 2].x - a[i].x) <= h) {
             B.push_back(a[i]);
-        //    cout << a[i].x << " " << a[i].y << endl;
+          //  cout << a[i].x << " " << a[i].y << endl;
         }
     }
 
@@ -71,26 +72,28 @@ int find(int l, int r, p (&a)[100000]) {
         for (int j = i + 1; j < B.size(); j++) {
             if (abs(B[i].y - B[j].y) * abs(B[i].y - B[j].y) <= h) {
                 ans = min(ans, dist(B[i], B[j]));
-                if (total_ans > ans) {
+                if (total_ans == dist(B[i], B[j])) x++;
+                else if (total_ans > ans) {
                     x = 1;
                     total_ans = ans;
                 }
-                else if (total_ans == ans) x++;
+               // cout << "sfldsg " << x << endl;
             }
             else break;
         }
         for (int j = i - 1; j >= 0; j--) {
             if (abs(B[i].y - B[j].y) * abs(B[i].y - B[j].y) <= h) {
                 ans = min(ans, dist(B[i], B[j]));
-                if (total_ans > ans) {
+                if (total_ans == dist(B[i], B[j])) x++;
+                else if (total_ans > ans) {
                     x = 1;
                     total_ans = ans;
                 }
-                else if (total_ans == ans) x++;
+               // cout << "sfldsg " << x << endl;
             }
             else break;
         }
-        //cout << total_ans << " " << x << " " << B[i].x << " " << B[i].y << endl;
+      //  cout << total_ans << " " << x << " " << B[i].x << " " << B[i].y << endl;
         if (x > 1) {
             is_ans_exist = 0;
         }
@@ -103,8 +106,19 @@ int find(int l, int r, p (&a)[100000]) {
 
 }
 
+
+void make_test(int n) {
+    ofstream f("input.txt");
+    f << n << endl;
+    for (int i = 0; i < n; i++) {
+        f << rand() % 1000 - 500 << " " << rand() % 1000 - 500 << endl;
+    }
+}
+
 int main()
 {
+    srand(time(0));
+    make_test(10);
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     int n;
