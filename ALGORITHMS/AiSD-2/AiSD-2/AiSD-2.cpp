@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <map>
+#include <ctime>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ long long find(int l, int r, p (&a)[100000]) {
         else return dist(a[l], a[r - 1]);
     }
 
-    long long h1 = find(l, (l + r) / 2, a);
+    long long h1 = find(l, (l + r) / 2, a); // T(n) = T(n / 2) * 2 + O(n) = O(nlogn) 
     long long h2 = find((l + r) / 2, r, a);
     long long h = min(h1, h2); // получаем минимум
     if (total_ans > h) {
@@ -45,21 +46,21 @@ long long find(int l, int r, p (&a)[100000]) {
     long long left = l;
     long long middle = (l + r) / 2;
 
-    for (int i = l; i < r; i++) {
+    for (int i = l; i < r; i++) { // O(r - l)
         if (left == (l + r) / 2) b[i] = a[middle++];
         else if (middle == r) b[i] = a[left++];
         else if(a[middle].y < a[left].y) b[i] = a[middle++];
         else b[i] = a[left++];
     }
    /// cout << "New group\n";
-    for (int i = l; i < r; i++) {
+    for (int i = l; i < r; i++) {// O(r - l)
         a[i] = b[i];
       //  cout << a[i].x << " " << a[i].y << endl;
     }
     //cout << "H: " << h << endl << a[(l+r)/2].x << endl;
     vector <p> B;
    // cout << "B:\n";
-    for (int i = l; i < r; i++) {
+    for (int i = l; i < r; i++) {// O(r - l)
         if (abs(a[(l + r) / 2].x - a[i].x) * abs(a[(l + r) / 2].x - a[i].x) <= h) {
             B.push_back(a[i]);
           //  cout << a[i].x << " " << a[i].y << endl;
@@ -68,7 +69,7 @@ long long find(int l, int r, p (&a)[100000]) {
 
     long long ans = h;
 
-    for (int i = 0; i < B.size(); i++) {
+    for (int i = 0; i < B.size(); i++) {// O(1)
         int x = 0;
         for (int j = i + 1; j < B.size(); j++) {
             if (abs(B[i].y - B[j].y) * abs(B[i].y - B[j].y) <= h) {
@@ -126,9 +127,10 @@ void make_test(int n) {
 int main()
 {
     srand(time(0));
-    make_test(100000);
+    make_test(50000);
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
+    unsigned int start_time = clock();
     int n;
     fin >> n;
     for (int i = 0; i < n; i++) {
@@ -148,5 +150,9 @@ int main()
     else {
         cout << "Ответа нет";
     }
+    cout << endl;
+    unsigned int end_time = clock(); // конечное время
+    unsigned int search_time = end_time - start_time; // искомое время
+    cout << "Total time: " << search_time << "ms" << endl;
     return 0;
 }
