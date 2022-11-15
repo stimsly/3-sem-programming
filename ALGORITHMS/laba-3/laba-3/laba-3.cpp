@@ -133,7 +133,7 @@ int sizes_sqr[] = { 100, 500, 1000, 5000, 10000, 25000 };
 int main()
 {
     srand(time(0));
-    for (int i = 3; i < 6; i++) {
+    for (int i = 0; i < 6; i++) {
 
         int work_time = 0; // total time
         int best_time = 9999999;
@@ -145,7 +145,7 @@ int main()
             make_test(a, n);
 
             int start = clock();
-            bubble_sort(a, n);
+            insertion_sort(a, n);
             int end = clock();
 
             for (int i = 1; i < n; i++) {
@@ -155,7 +155,7 @@ int main()
             work_time += end - start;
             worst_time = max(worst_time, end - start);
             best_time = min(best_time, end - start);
-            cout << "Test #" << test << " works for " << end - start << "ms.\n";
+            //cout << "Test #" << test << " works for " << end - start << "ms.\n";
         }
         cout << "\n\nBest case for " << n << " is " << best_time << "ms." << endl;
         cout << "Avarage case for " << n << " is " << work_time / tests << "ms." << endl;
