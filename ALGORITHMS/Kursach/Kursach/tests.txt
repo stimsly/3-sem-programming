@@ -1,0 +1,10 @@
+ababababa
+8
+2 1 7 aba
+2 2 7 aba
+2 3 7 aba
+2 4 7 aba
+2 5 7 aba
+2 6 7 aba
+2 7 7 aba
+2 1 6 aba

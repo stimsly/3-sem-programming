@@ -27,7 +27,6 @@ public:
         for (int i = 0; i < N; i++) {
             cur = (cur + (i + 1)) * (i + 1);
             cur %= p;
-            std::cout << cur << std::endl;
             add(cur);
         }
     }
@@ -120,15 +119,49 @@ public:
 
 int main()
 {
-    
-    
     hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleDisplayMode(hCon, CONSOLE_FULLSCREEN_MODE, 0);
-    binary_tree a(N);
-    a.inorder();
+
+    binary_tree a(N); // create a tree with N random numbers[0; 1006]
+    
    
-    int t;
-    std::cin >> t;
+    while (1) {
+        std::cout << "0. Exit\n"
+            << "1.Print tree\n"
+            << "2.Inorder\n"
+            << "3.Preorder\n"
+            << "4.Postorder\n"
+            << "5.Contains value\n"
+            << "6.Get maximum\n"
+            << "7.Get minimum\n"
+            << "8.Add value\n"
+            << "Enter: ";
+        int t;
+        std::cin >> t;
+        system("cls");
+        if (!t) break;
+        if (t == 1) a.print_tree();
+        else if (t == 2) a.inorder();
+        else if (t == 3) a.preorder();
+        else if (t == 4) a.postorder();
+        else if (t == 5) {
+            std::cout << "\nEnter value to check its contains: ";
+            int v;
+            std::cin >> v;
+            if (a.search(v)) std::cout << "\nThis number in the tree\n";
+            else std::cout << "\nThis number NOT in the tree\n";
+        }
+        else if (t == 6) std::cout << "Maximum value is: " << a.get_max() << "\n";
+        else if (t == 7) std::cout << "Minimum value is: " << a.get_min() << "\n";
+        else if (t == 8) {
+            std::cout << "Enter value to add: ";
+            int v;
+            std::cin >> v;
+            if (!a.search(v)) a.add(v);
+        }
+        system("pause");
+        system("cls");
+    }
     return 0;
 
 }
